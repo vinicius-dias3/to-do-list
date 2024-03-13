@@ -1,0 +1,96 @@
+html{
+    font-size: 62.5%;
+    font-family: sans-serif;
+}
+
+body{
+    background-color: rgb(247, 247, 202);
+}
+
+
+.main{
+    min-height: 100vh;
+    margin: 2em;
+    padding: 2em;
+    max-width: 500px;
+}
+
+.main h1{
+    font-size: 2em;
+    color: goldenrod;
+    margin-bottom: 1em;
+}
+
+.main #taskInput{
+    padding: 6px;
+    width: 220px;
+    /* max-width: 220px; */
+}
+
+.main #taskList{
+    margin-top: 1.5em;
+    font-size: 1.6em;
+}
+
+.main button{
+    padding: 6px;
+}
+
+.main #taskList li{
+    padding: 1em;
+    border-top: 1px solid rgb(235, 197, 101);
+    display: block;
+    width: 100%;
+}
+
+.main #taskList li button{
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background-color: inherit;
+}
+
+.main #taskList li:last-child{
+    border-bottom: 1px solid rgb(235, 197, 101);
+}
+
+.main .completed{
+    text-decoration: line-through;
+    color: grey;
+    position: relative;
+}
+
+.main .completed::after{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f00c";
+    position: absolute;
+    right: 20px;
+    /* font-size: 24px; */
+    /* color: #333; */
+}
+
+
+@media (max-width: 400px){
+    .main {
+        margin: 2em 1em;
+        padding: 2em 1em;
+    }
+    
+    .main #taskInput{
+        width: 200px;
+    }
+}
+/*
+responsive:
+
+.main {
+    margin: 1em;
+    padding: 1em;
+}
+
+.main #inputTask{
+    width: 200px;
+}
+*/
