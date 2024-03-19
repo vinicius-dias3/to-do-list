@@ -18,7 +18,11 @@ body{
 .main h1{
     font-size: 2em;
     color: goldenrod;
+    color: rgb(235, 197, 101);
+    color: inherit;
     margin-bottom: 1em;
+    background-color: rgb(221, 174, 55);
+    padding: 8px;
 }
 
 .main #taskInput{
@@ -39,14 +43,15 @@ body{
 .main #taskList li{
     padding: 1em;
     border-top: 1px solid rgb(235, 197, 101);
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
+    cursor: pointer;
 }
 
 .main #taskList li button{
     display: block;
-    width: 100%;
-    text-align: left;
     border: none;
     background-color: inherit;
 }
@@ -55,42 +60,42 @@ body{
     border-bottom: 1px solid rgb(235, 197, 101);
 }
 
+.main #taskList li.completed .menu{
+    width: 50px;
+    border: 1px solid grey;
+}
+
+.menu h3 {
+    color: rgb(63, 233, 224);
+}
+
+/*
+nome da li - titulo em verde
+editar
+remover
+copiar texto
+
+
+*/
+
 .main .completed{
     text-decoration: line-through;
     color: grey;
     position: relative;
 }
 
-.main .completed::after{
+.main .completed::before{
     font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+    font-weight: bold;
     content: "\f00c";
     position: absolute;
-    right: 20px;
-    /* font-size: 24px; */
-    /* color: #333; */
+    right: 45px;
 }
 
-
-@media (max-width: 400px){
-    .main {
-        margin: 2em 1em;
-        padding: 2em 1em;
-    }
-    
-    .main #taskInput{
-        width: 200px;
-    }
-}
-/*
-responsive:
-
-.main {
-    margin: 1em;
-    padding: 1em;
-}
-
-.main #inputTask{
-    width: 200px;
-}
-*/
+/* .main .completed::after{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    content: "\f142";
+    position: absolute;
+    right: 0px;
+} */

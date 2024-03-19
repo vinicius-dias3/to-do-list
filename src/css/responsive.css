@@ -1,0 +1,10 @@
+@media (max-width: 400px){
+    .main {
+        margin: 2em 1em;
+        padding: 2em 1em;
+    }
+    
+    .main #taskInput{
+        width: 200px;
+    }
+}
