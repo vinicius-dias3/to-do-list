@@ -17,8 +17,6 @@ body{
 
 .main h1{
     font-size: 2em;
-    color: goldenrod;
-    color: rgb(235, 197, 101);
     color: inherit;
     margin-bottom: 1em;
     background-color: rgb(221, 174, 55);
@@ -28,7 +26,6 @@ body{
 .main #taskInput{
     padding: 6px;
     width: 220px;
-    /* max-width: 220px; */
 }
 
 .main #taskList{
@@ -40,43 +37,92 @@ body{
     padding: 6px;
 }
 
-.main #taskList li{
-    padding: 1em;
+.main #taskList > li{
+    padding-top: .7em;
     border-top: 1px solid rgb(235, 197, 101);
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     cursor: pointer;
+    min-height: 60px;
+}
+
+.main #taskList li p{
+    width: 100%;
+    padding: 5px;
 }
 
 .main #taskList li button{
     display: block;
     border: none;
     background-color: inherit;
+    position: relative;
 }
 
-.main #taskList li:last-child{
+.main #taskList > li:last-child{
     border-bottom: 1px solid rgb(235, 197, 101);
 }
 
-.main #taskList li.completed .menu{
-    width: 50px;
+.main #taskList li.completed .option{
     border: 1px solid grey;
+    position: absolute;
+    width: 130px;
+    right: 0;
+    bottom: -77px;
+    background-color: rgb(248, 248, 239);
+    font-size: .8em;
+    padding: 8px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    display: flex;
+    flex-direction: column;
+    gap: .6em;
+    z-index: 1;
 }
 
-.menu h3 {
-    color: rgb(63, 233, 224);
+.main #taskList .editing{
+    background-color: #fff;
 }
 
-/*
-nome da li - titulo em verde
-editar
-remover
-copiar texto
+.option h3 {
+    color: rgb(6, 138, 131);
+    margin-bottom: 10px;
+}
 
+.option #edit,
+.option #remove{
+    position: relative;
+}
 
-*/
+.option #edit::after,
+.option #remove::after,
+.option #search-web::after,
+.option #copy-text::after{
+    position: absolute;
+    font-family: "Font Awesome 5 Free";
+    font-weight: normal;
+}
+
+.option #edit::after{
+    content: "\f044";
+    right: 0;
+}
+
+.option #remove::after{
+    content: "\f2ed";
+    right: 2px;
+}
+
+.option #search-web::after{
+    content: "\f002";
+    right: 10px;
+}
+
+.option #copy-text::after{
+    content: "\f0c5";
+    right: 10px;
+
+}
 
 .main .completed{
     text-decoration: line-through;
@@ -91,11 +137,3 @@ copiar texto
     position: absolute;
     right: 45px;
 }
-
-/* .main .completed::after{
-    font-family: "Font Awesome 5 Free";
-    font-weight: 600;
-    content: "\f142";
-    position: absolute;
-    right: 0px;
-} */
