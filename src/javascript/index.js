@@ -1,6 +1,7 @@
 const tasks = []
 let taskInput = document.getElementById('taskInput')
 let btnAddTask = document.getElementById('btnAddTask');
+let btnConfirmEdit = document.getElementById('btnConfirmEdit');
 
 function addTask(taskText){
     if(btnAddTask.innerText === 'Add task'){
@@ -30,13 +31,25 @@ function verificarMaiorId (){
 
 btnAddTask.addEventListener('click', (addTask))
 
-taskInput.addEventListener('keyup', (e)=> {
-    const taskText = e.target.value
-    const key = e.which || e.keyCode
-    const isEnterPressed = key === 13
+// taskInput.addEventListener('keyup', (e)=> {
+//     const taskText = e.target.value
+//     const key = e.which || e.keyCode
+//     const isEnterPressed = key === 13
 
-    if(isEnterPressed) addTask(taskText)
-})
+//     if(isEnterPressed) addTask(taskText)
+// })
+// if(btnAddTask.style.display = 'block'){
+//     debugger
+//     taskInput.addEventListener('keyup', (e)=> {
+//         const taskText = e.target.value
+//         const key = e.which || e.keyCode
+//         const isEnterPressed = key === 13
+    
+//         if(isEnterPressed) addTask(taskText)
+//     })
+// }else{
+//     taskInput.removeEventListener('keyup', e)
+// }
 
 function renderList (){
     const taskList = document.querySelector('#taskList');
@@ -107,9 +120,9 @@ function renderOption(listItem, task){
     const editBtn = option.querySelector('#edit')
     editBtn.addEventListener('click', ()=> {
         listItem.removeChild(option)
-        editTask(task)
+        editTask(tasks, task)
     })
-
+    
     const copyTextBtn = option.querySelector('#copy-text')
     copyTextBtn.addEventListener('click', async ()=> {
         await navigator.clipboard.writeText(task.text)
@@ -123,27 +136,28 @@ function removeTask (listItem, task){
     if(index !== -1) tasks.splice(index, 1)
 }
 
-function editTask (task){
-    debugger
-    tasks.find(t => t.id === task.id);
-    console.log(task.text); //seleciona corretamente o objeto que desejo alterar
-    taskInput.value = task.text;
+function editTask (tasks, taskId){
+    // debugger
+    tasks.find(t => t.id === taskId);
+    console.log(taskId.text);
+    taskInput.value = taskId.text;
     taskInput.select();
-    btnAddTask.innerHTML = '<i class="fa-solid fa-check-double"></i>'
-    
-    btnAddTask.addEventListener('click', ()=> completeEditing(task))
+    btnAddTask.style.display = 'none'
+    btnConfirmEdit.style.display = 'inline-block'
+    btnConfirmEdit.addEventListener('click', ()=> completeEditing(tasks, taskId))
 }
 
-function completeEditing(task){
+function completeEditing(tasks, taskId){
     debugger
     // let task = tasks.find(t => t.id === taskId);
 
     if(taskInput.value !== ''){
         console.log(tasks)
-        console.log(task.text)
-        task.text = taskInput.value
+        console.log(taskId.text)
+        taskId.text = taskInput.value
         console.log(tasks)
-        btnAddTask.innerText = 'Add task'
+        btnAddTask.style.display = 'inline-block'
+        btnConfirmEdit.style.display = 'none'
         taskInput.value = ''
         renderList()
     }

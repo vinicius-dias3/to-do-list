@@ -37,6 +37,10 @@ body{
     padding: 6px;
 }
 
+.main #btnConfirmEdit{
+    display: none;
+}
+
 .main #taskList > li{
     padding-top: .7em;
     border-top: 1px solid rgb(235, 197, 101);
