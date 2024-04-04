@@ -90,38 +90,11 @@ body{
 }
 
 .option #edit,
-.option #remove{
-    position: relative;
-}
-
-.option #edit::after,
-.option #remove::after,
-.option #search-web::after,
-.option #copy-text::after{
-    position: absolute;
-    font-family: "Font Awesome 5 Free";
-    font-weight: normal;
-}
-
-.option #edit::after{
-    content: "\f044";
-    right: 0;
-}
-
-.option #remove::after{
-    content: "\f2ed";
-    right: 2px;
-}
-
-.option #search-web::after{
-    content: "\f002";
-    right: 10px;
-}
-
-.option #copy-text::after{
-    content: "\f0c5";
-    right: 10px;
-
+.option #remove,
+.option #search-web,
+.option #copy-text{
+    display: flex;
+    justify-content: space-between;
 }
 
 .main .completed{
