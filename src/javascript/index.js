@@ -120,7 +120,7 @@ function renderOption(listItem, task){
     const editBtn = option.querySelector('#edit')
     editBtn.addEventListener('click', ()=> {
         listItem.removeChild(option)
-        editTask(tasks, task)
+        editTask(task)
     })
     
     const copyTextBtn = option.querySelector('#copy-text')
@@ -136,25 +136,25 @@ function removeTask (listItem, task){
     if(index !== -1) tasks.splice(index, 1)
 }
 
-function editTask (tasks, taskId){
+function editTask (task){
     // debugger
-    tasks.find(t => t.id === taskId);
-    console.log(taskId.text);
-    taskInput.value = taskId.text;
+    console.log(tasks)
+    console.log(task.text);
+    taskInput.value = task.text;
     taskInput.select();
     btnAddTask.style.display = 'none'
     btnConfirmEdit.style.display = 'inline-block'
-    btnConfirmEdit.addEventListener('click', ()=> completeEditing(tasks, taskId))
+    btnConfirmEdit.addEventListener('click', ()=> completeEditing(task))
 }
 
-function completeEditing(tasks, taskId){
-    debugger
+function completeEditing(task){
+    // debugger
     // let task = tasks.find(t => t.id === taskId);
 
     if(taskInput.value !== ''){
-        console.log(tasks)
-        console.log(taskId.text)
-        taskId.text = taskInput.value
+        console.log(task)
+        console.log(task.text)
+        task.text = taskInput.value
         console.log(tasks)
         btnAddTask.style.display = 'inline-block'
         btnConfirmEdit.style.display = 'none'
