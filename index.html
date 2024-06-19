@@ -11,11 +11,19 @@
 </head>
 <body>
     <main class="main">
-        <h1>To do List</h1>
-
-        <input type="text" placeholder="Enter a new task..." id="taskInput">
-        <button type="submit" id="btnAddTask">Add task</button>
-        <button type="submit" id="btnConfirmEdit"><i class="fa-solid fa-check-double"></i></button>
+        <form action="#" method="get">
+            <h1>To do List</h1>
+            <input 
+            type="text" 
+            placeholder="Enter a new task..." 
+            id="taskInput" 
+            maxlength="40">
+            <button type="submit" id="btnAddTask">Add task</button>
+            <input type="text" id="editTaskInput">
+            <button type="submit" id="btnConfirmEdit">
+                <i class="fa-solid fa-check-double"></i>
+            </button>
+        </form>
 
         <ul id="taskList"></ul>
     </main>

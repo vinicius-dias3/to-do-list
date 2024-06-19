@@ -23,9 +23,13 @@ body{
     padding: 8px;
 }
 
-.main #taskInput{
+.main input{
     padding: 6px;
     width: 220px;
+}
+
+.main #editTaskInput{
+    display: none;
 }
 
 .main #taskList{
@@ -71,7 +75,7 @@ body{
 .main #taskList li.completed .option{
     border: 1px solid grey;
     position: absolute;
-    width: 130px;
+    min-width: 130px;
     right: 0;
     bottom: -77px;
     background-color: rgb(248, 248, 239);
