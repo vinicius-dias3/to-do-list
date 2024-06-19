@@ -1,13 +1,12 @@
 const tasks = [];
 let taskInput = document.getElementById("taskInput");
+let editTaskInput = document.getElementById("editTaskInput");
 let btnAddTask = document.getElementById("btnAddTask");
 let btnConfirmEdit = document.getElementById("btnConfirmEdit");
 let tarefaAtualParaEdicao = null;
 
 function addTask(taskText) {
-  if (btnAddTask.innerText === "Add task") {
     if (taskText !== "") {
-      taskText = taskInput.value.trim(); //método trim, elimina espaço antes e depois da string
       const newTask = {
         id: verificarMaiorId() + 1, //para não repetir o número do id quando excluído e depois adicionado nova task.
         text: taskText,
@@ -18,7 +17,6 @@ function addTask(taskText) {
       taskInput.value = "";
       renderList();
     }
-  }
 }
 
 function verificarMaiorId() {
@@ -67,7 +65,6 @@ function showBtnMenu(listItem, task) {
   } else {
     listItem.removeChild(listItem.childNodes[1]); //remove o btnMenu
   }
-  //opção 2. parece mais correto
 }
 
 function renderOption(listItem, task) {
@@ -80,21 +77,15 @@ function renderOption(listItem, task) {
                         <li id="copy-text">Copy text <i class="fa-regular fa-copy"></i></li>`;
   listItem.appendChild(option);
 
-  let removeBtn = option.querySelector("#remove");
-  removeBtn.addEventListener("click", () => removeTask(listItem, task));
   option.addEventListener("mouseleave", () => listItem.removeChild(option));
-
-  const searchWeb = option.querySelector("#search-web");
-  searchWeb.addEventListener("click", () => listItem.removeChild(option));
-
-  const editBtn = option.querySelector("#edit");
-  editBtn.addEventListener("click", () => {
+  option.querySelector("#remove").addEventListener("click", () => removeTask(listItem, task));
+  option.querySelector("#search-web").addEventListener("click", () => listItem.removeChild(option));
+  option.querySelector("#edit").addEventListener("click", () => {
     listItem.removeChild(option);
     editTask(task);
   });
 
-  const copyTextBtn = option.querySelector("#copy-text");
-  copyTextBtn.addEventListener("click", async () => {
+  option.querySelector("#copy-text").addEventListener("click", async () => {
     await navigator.clipboard.writeText(task.text);
     listItem.removeChild(option);
   });
@@ -107,19 +98,24 @@ function removeTask(listItem, task) {
 }
 
 function editTask(task) {
-  tarefaAtualParaEdicao = task;
-  taskInput.value = task.text;
-  taskInput.select();
+  taskInput.style.display = 'none'
   btnAddTask.style.display = "none";
+  editTaskInput.style.display = 'inline-block'
   btnConfirmEdit.style.display = "inline-block";
+  tarefaAtualParaEdicao = task;
+  editTaskInput.value = task.text;
+  editTaskInput.select();
 }
 
 function completeEditing(task) {
-  if (taskInput.value !== "") {
-    task.text = taskInput.value;
-    btnAddTask.style.display = "inline-block";
+  if (editTaskInput.value !== "") {
+    task.text = editTaskInput.value;
+    editTaskInput.value = "";
+    editTaskInput.style.display = 'none'
     btnConfirmEdit.style.display = "none";
-    taskInput.value = "";
+    taskInput.style.display = 'inline-block'
+    btnAddTask.style.display = "inline-block";
+    taskInput.focus()
     renderList();
 
     tarefaAtualParaEdicao = null;
@@ -127,14 +123,22 @@ function completeEditing(task) {
 }
 
 //EVENTOS
-btnConfirmEdit.addEventListener("click", () => {
+btnConfirmEdit.addEventListener("click", (e) => {
+  e.preventDefault()
   if (tarefaAtualParaEdicao !== null) {
     completeEditing(tarefaAtualParaEdicao);
   }
 });
 
-btnAddTask.addEventListener("click", () => {
-    const taskText = taskInput.value.trim();
-    addTask(taskText);
-  });
-  
+btnAddTask.addEventListener("click", (e) => {
+  e.preventDefault()
+  const taskText = taskInput.value.trim();
+  addTask(taskText);
+});
+
+editTaskInput.addEventListener('keyup', (e)=> {
+  const key = e.which || e.keyCode
+  const isEnterPressed = key === 13
+
+  if(isEnterPressed) completeEditing(tarefaAtualParaEdicao);
+})
