@@ -1,10 +1,13 @@
-@media (max-width: 400px){
+@media (max-width: 430px){
     .main {
         margin: 2em 1em;
         padding: 2em 1em;
+        width: 100%;
     }
     
     .main input{
-        width: 200px;
+        width: 100%;
+        display: block;
+        margin-bottom: 15px;
     }
 }

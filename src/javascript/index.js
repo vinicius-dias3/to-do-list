@@ -5,6 +5,15 @@ let btnAddTask = document.getElementById("btnAddTask");
 let btnConfirmEdit = document.getElementById("btnConfirmEdit");
 let tarefaAtualParaEdicao = null;
 
+const saveTasksLocalStorage = (tasks) => {
+    localStorage.setItem('todoList', JSON.stringify(tasks))
+}
+
+const loadTasksLocalStorage = () => {
+  const storedTasks = JSON.parse(localStorage.getItem('todoList')) || []
+  return storedTasks
+}
+
 function addTask(taskText) {
     if (taskText !== "") {
       const newTask = {
@@ -27,7 +36,6 @@ function verificarMaiorId() {
   return maiorId;
 }
 
-
 function renderList() {
   const taskList = document.querySelector("#taskList");
   taskList.innerHTML = "";
@@ -45,15 +53,17 @@ function renderList() {
     }
 
     taskList.appendChild(listItem);
+    saveTasksLocalStorage(tasks)
   }
 }
 
 function completeTask(listItem, taskId) {
   const task = tasks.find((t) => t.id === taskId);
-
+  
   !task.completed ? (task.completed = true) : (task.completed = false);
   listItem.classList.toggle("completed");
   showBtnMenu(listItem, task);
+  saveTasksLocalStorage(tasks)
 }
 
 function showBtnMenu(listItem, task) {
@@ -93,8 +103,9 @@ function renderOption(listItem, task) {
 
 function removeTask(listItem, task) {
   listItem.remove();
-  const index = tasks.findIndex((t) => t.id === task.id);
+  const index = tasks.indexOf(task)
   if (index !== -1) tasks.splice(index, 1);
+  saveTasksLocalStorage(tasks)
 }
 
 function editTask(task) {
@@ -123,6 +134,23 @@ function completeEditing(task) {
 }
 
 //EVENTOS
+
+window.addEventListener('load', ()=> {
+  loadedTasks = loadTasksLocalStorage();
+  tasks.push(...loadedTasks)
+  renderList()
+})
+
+const clearAllBtn = document.querySelector('#clearAll')
+
+clearAllBtn.addEventListener('click', ()=> {
+  while(tasks.length > 0){
+    tasks.pop()
+  }
+  saveTasksLocalStorage(tasks)
+  renderList()
+})
+
 btnConfirmEdit.addEventListener("click", (e) => {
   e.preventDefault()
   if (tarefaAtualParaEdicao !== null) {
