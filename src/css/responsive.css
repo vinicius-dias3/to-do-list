@@ -7,7 +7,10 @@
     
     .main input{
         width: 100%;
-        display: block;
         margin-bottom: 15px;
+    }
+
+    .main #taskList li.completed .option{
+        gap: .9em;
     }
 }

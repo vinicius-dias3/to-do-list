@@ -13,14 +13,19 @@
     <main class="main">
         <form action="#" method="get">
             <h1>To do List</h1>
+            <span id="counter">0 / 40</span>
             <input 
             type="text" 
             placeholder="Enter a new task..." 
             id="taskInput" 
             maxlength="40">
             <button type="submit" id="btnAddTask">Add task</button>
-            <input type="text" id="editTaskInput">
-            <button type="submit" id="btnConfirmEdit">
+            <input 
+            type="text" 
+            id="editTaskInput"
+            maxlength="40" 
+            class="hidden">
+            <button type="submit" id="btnConfirmEdit" class="hidden">
                 <i class="fa-solid fa-check-double"></i>
             </button>
             <button type="submit" id="clearAll">Clear List</button>

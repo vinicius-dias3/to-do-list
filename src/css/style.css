@@ -29,8 +29,8 @@ body{
     width: 220px;
 }
 
-.main #editTaskInput{
-    display: none;
+.main span {
+    display: block;
 }
 
 .main #taskList{
@@ -40,10 +40,6 @@ body{
 
 .main button{
     padding: 6px;
-}
-
-.main #btnConfirmEdit{
-    display: none;
 }
 
 .main #taskList > li{
@@ -118,4 +114,13 @@ body{
     content: "\f00c";
     position: absolute;
     right: 45px;
+}
+
+.hidden{
+    display: none;
+}
+
+.disabled{
+    pointer-events: none;
+    opacity: .7;
 }

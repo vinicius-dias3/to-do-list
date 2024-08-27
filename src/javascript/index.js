@@ -1,12 +1,15 @@
 const tasks = [];
 let taskInput = document.getElementById("taskInput");
+const maxLength = taskInput.getAttribute('maxLength')
 let editTaskInput = document.getElementById("editTaskInput");
 let btnAddTask = document.getElementById("btnAddTask");
+let counterLength = document.querySelector('#counter')
+const clearAllBtn = document.querySelector('#clearAll')
 let btnConfirmEdit = document.getElementById("btnConfirmEdit");
 let tarefaAtualParaEdicao = null;
 
 const saveTasksLocalStorage = (tasks) => {
-    localStorage.setItem('todoList', JSON.stringify(tasks))
+  localStorage.setItem('todoList', JSON.stringify(tasks))
 }
 
 const loadTasksLocalStorage = () => {
@@ -15,17 +18,20 @@ const loadTasksLocalStorage = () => {
 }
 
 function addTask(taskText) {
-    if (taskText !== "") {
-      const newTask = {
-        id: verificarMaiorId() + 1, //para não repetir o número do id quando excluído e depois adicionado nova task.
-        text: taskText,
-        completed: false,
-      };
+  if (taskText !== "") {
+    const newTask = {
+      id: verificarMaiorId() + 1, //para não repetir o número do id quando excluído e depois adicionado nova task.
+      text: taskText,
+      completed: false,
+    };
 
-      tasks.unshift(newTask);
-      taskInput.value = "";
-      renderList();
-    }
+    tasks.unshift(newTask);
+    taskInput.value = "";
+
+    counterLength.textContent = `0 / ${maxLength}`
+    toggleClearAllBtn()
+    renderList();
+  }
 }
 
 function verificarMaiorId() {
@@ -59,7 +65,7 @@ function renderList() {
 
 function completeTask(listItem, taskId) {
   const task = tasks.find((t) => t.id === taskId);
-  
+
   !task.completed ? (task.completed = true) : (task.completed = false);
   listItem.classList.toggle("completed");
   showBtnMenu(listItem, task);
@@ -72,8 +78,9 @@ function showBtnMenu(listItem, task) {
     btnMenu.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
     listItem.appendChild(btnMenu);
     btnMenu.addEventListener("click", () => renderOption(listItem, task));
-  } else {
-    listItem.removeChild(listItem.childNodes[1]); //remove o btnMenu
+  }else {
+    const btnMenu = listItem.querySelector('button')
+    btnMenu.remove();
   }
 }
 
@@ -87,7 +94,6 @@ function renderOption(listItem, task) {
                         <li id="copy-text">Copy text <i class="fa-regular fa-copy"></i></li>`;
   listItem.appendChild(option);
 
-  option.addEventListener("mouseleave", () => listItem.removeChild(option));
   option.querySelector("#remove").addEventListener("click", () => removeTask(listItem, task));
   option.querySelector("#search-web").addEventListener("click", () => listItem.removeChild(option));
   option.querySelector("#edit").addEventListener("click", () => {
@@ -99,52 +105,98 @@ function renderOption(listItem, task) {
     await navigator.clipboard.writeText(task.text);
     listItem.removeChild(option);
   });
+
+  function closeOption(event){
+    console.log('teste')
+    if(listItem.contains(option) && !option.contains(event.target)){
+      listItem.removeChild(option)
+      document.removeEventListener('click', closeOption)
+    }
+  }
+
+  setTimeout(()=> {
+    document.addEventListener('click', closeOption)
+  }, 1)
 }
 
 function removeTask(listItem, task) {
   listItem.remove();
   const index = tasks.indexOf(task)
   if (index !== -1) tasks.splice(index, 1);
+  taskInput.focus()
   saveTasksLocalStorage(tasks)
 }
 
 function editTask(task) {
-  taskInput.style.display = 'none'
-  btnAddTask.style.display = "none";
-  editTaskInput.style.display = 'inline-block'
-  btnConfirmEdit.style.display = "inline-block";
+  taskInput.classList.add('hidden')
+  btnAddTask.classList.add('hidden')
+  editTaskInput.classList.remove('hidden')
+  btnConfirmEdit.classList.remove('hidden')
   tarefaAtualParaEdicao = task;
   editTaskInput.value = task.text;
   editTaskInput.select();
+  counterLength.textContent = `${editTaskInput.value.length} / ${maxLength}`
+  toggleClearAllBtn()
+
+  let taskListItens = document.querySelectorAll('#taskList li')
+  taskListItens.forEach(taskItem => {
+    taskItem.classList.add('disabled')
+  });
 }
 
 function completeEditing(task) {
   if (editTaskInput.value !== "") {
     task.text = editTaskInput.value;
     editTaskInput.value = "";
-    editTaskInput.style.display = 'none'
-    btnConfirmEdit.style.display = "none";
-    taskInput.style.display = 'inline-block'
-    btnAddTask.style.display = "inline-block";
+    editTaskInput.classList.add('hidden')
+    btnConfirmEdit.classList.add('hidden')
+    taskInput.classList.remove('hidden')
+    btnAddTask.classList.remove('hidden')
     taskInput.focus()
     renderList();
-
     tarefaAtualParaEdicao = null;
+    counterLength.textContent = `0 / ${maxLength}`
+  }
+}
+
+function updateCounter(inputElement){
+  let currentLength = inputElement.value.length
+  counterLength.textContent = `${currentLength} / ${maxLength}`
+  if(inputElement.value) {
+    clearAllBtn.classList.add('disabled')
+  }else{
+    clearAllBtn.classList.remove('disabled')
+  }
+}
+
+function toggleClearAllBtn (){
+  const hasTasks = tasks.length > 0
+  const isInputEmpty = !taskInput.value && !editTaskInput.value
+  if(hasTasks && isInputEmpty) {
+    clearAllBtn.classList.remove('disabled')
+  }else{
+    clearAllBtn.classList.add('disabled')
   }
 }
 
 //EVENTOS
 
-window.addEventListener('load', ()=> {
+window.addEventListener('load', () => {
   loadedTasks = loadTasksLocalStorage();
   tasks.push(...loadedTasks)
   renderList()
 })
 
-const clearAllBtn = document.querySelector('#clearAll')
+taskInput.addEventListener('input', function () {
+  updateCounter(this)
+})
 
-clearAllBtn.addEventListener('click', ()=> {
-  while(tasks.length > 0){
+editTaskInput.addEventListener('input', function(){
+  updateCounter(this)
+})
+
+clearAllBtn.addEventListener('click', () => {
+  while (tasks.length > 0) {
     tasks.pop()
   }
   saveTasksLocalStorage(tasks)
@@ -162,11 +214,15 @@ btnAddTask.addEventListener("click", (e) => {
   e.preventDefault()
   const taskText = taskInput.value.trim();
   addTask(taskText);
+  
 });
 
-editTaskInput.addEventListener('keyup', (e)=> {
+editTaskInput.addEventListener('keyup', (e) => {
   const key = e.which || e.keyCode
   const isEnterPressed = key === 13
 
-  if(isEnterPressed) completeEditing(tarefaAtualParaEdicao);
+  if (isEnterPressed) {
+    completeEditing(tarefaAtualParaEdicao);
+    toggleClearAllBtn()
+  }
 })
