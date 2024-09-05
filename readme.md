@@ -1,4 +1,4 @@
-# To do list [em construção]
+# To do list
 
 Este projeto, ajuda o usuário a criar uma lista de tarefas.
 
@@ -28,7 +28,7 @@ Este projeto, ajuda o usuário a criar uma lista de tarefas.
 
 - Contador de caracteres digitados no input de editar tarefa: Exibe o número de caracteres digitados no campo de edição da tarefa. ✅
 
-- Refatoração do código e distribuição em módulos: O código foi refatorado para melhorar a legibilidade e a manutenção. As funcionalidades foram distribuídas em módulos separados, facilitando a organização e a escalabilidade do projeto. ❌🚧
+- Refatoração do código e distribuição em módulos: O código foi refatorado para melhorar a legibilidade e a manutenção. As funcionalidades foram distribuídas em módulos separados, facilitando a organização e a escalabilidade do projeto. ✅
 
 ### Tecnologias Utilizadas
 
